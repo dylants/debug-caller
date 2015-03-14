@@ -24,7 +24,9 @@ describe("The debugCaller library", function() {
         });
 
         it("should return the correct decorator", function() {
-            expect(_getDecorator(APP_NAME)).toEqual(APP_NAME + ":debug-caller-test");
+            // use depth of -1 here to get around the depth default settings
+            // (and get depth to equal 1, which is only useful in testing)
+            expect(_getDecorator(APP_NAME, -1)).toEqual(APP_NAME + ":debug-caller-test");
         });
     });
 
