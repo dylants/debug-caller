@@ -1,0 +1,45 @@
+{
+    "name": "debug-caller",
+    "description": "The debug module with caller support",
+    "version": "0.1.0",
+    "author": {
+        "name": "Dylan Smith"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dylants/debug-caller.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dylants/debug-caller/issues"
+    },
+    "homepage": "https://github.com/dylants/debug-caller",
+    "licenses": [{
+        "type": "MIT",
+        "url": "https://github.com/dylants/debug-caller/raw/master/LICENSE"
+    }],
+    "keywords": [
+        "debug",
+        "logger",
+        "log",
+        "caller",
+        "filename"
+    ],
+    "files": [
+        "LICENSE",
+        "lib"
+    ],
+    "main": "./lib/debug-caller",
+    "scripts": {
+        "prepublish": "npm prune",
+        "test": "jasmine-node --test-dir test --matchall --color --verbose",
+        "test-watch": "jasmine-node --test-dir test --matchall --color --autotest --watch lib"
+    },
+    "dependencies": {
+        "debug": "^2.1.3",
+        "caller": "^1.0.0"
+    },
+    "devDependencies": {
+        "jasmine-node": "^1.14.5",
+        "rewire": "^2.3.1"
+    }
+}
