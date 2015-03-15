@@ -16,17 +16,17 @@ describe("The debugCaller library", function() {
         expect(debugCaller).toBeDefined();
     });
 
-    describe("_getDecorator", function() {
-        var _getDecorator;
+    describe("_buildNamespace", function() {
+        var _buildNamespace;
 
         beforeEach(function() {
-            _getDecorator = debugCaller.__get__("_getDecorator");
+            _buildNamespace = debugCaller.__get__("_buildNamespace");
         });
 
-        it("should return the correct decorator", function() {
+        it("should return the correct namespace", function() {
             // use depth of -1 here to get around the depth default settings
             // (and get depth to equal 1, which is only useful in testing)
-            expect(_getDecorator(APP_NAME, -1)).toEqual(APP_NAME + ":debug-caller-test");
+            expect(_buildNamespace(APP_NAME, -1)).toEqual(APP_NAME + ":debug-caller-test");
         });
     });
 

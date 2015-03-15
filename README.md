@@ -5,15 +5,15 @@
 [![NPM](https://nodei.co/npm/debug-caller.svg?downloads=true)](https://nodei.co/npm/debug-caller/)
 
 A wrapper around the [`debug`](https://github.com/visionmedia/debug) module,
-providing the additional ability to determine the calling file name for `debug`,
-using [`caller`](https://github.com/totherik/caller). Now you get unique namespaces
-each time you use `debug`!
+providing the additional ability to determine the calling file name for `debug`'s
+namespace using [`caller`](https://github.com/totherik/caller). Get automatic
+unique namespaces each time you use `debug`!
 
 ## Quick Examples ##
 
 When you invoke `debug-caller`, you must specify the application name, and
 can optionally specify the depth. If you do not specify the depth, it will
-default to 1, using the immediate calling file name to build the decorator
+default to 1, using the immediate calling file name to build the namespace
 for the `debug` instance. Below are some examples:
 
 ### Basic usage ###
