@@ -22,7 +22,9 @@
         "logger",
         "log",
         "caller",
-        "filename"
+        "filename",
+        "namespace",
+        "path"
     ],
     "files": [
         "LICENSE",
