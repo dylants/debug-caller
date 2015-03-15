@@ -18,7 +18,7 @@ for the `debug` instance. Below are some examples:
 
 ### Basic usage ###
 
-```JavaScript
+```javascript
 // foo.js
 
 var logger = require("debug-caller")("myApp");
@@ -28,7 +28,7 @@ logger.log("logging data");  // "myApp:foo logging data"
 
 ### Used in a logging utility ###
 
-```JavaScript
+```javascript
 // logger.js
 
 var debugCaller = require("debug-caller");
@@ -40,7 +40,7 @@ module.exports = function() {
 };
 ```
 
-```JavaScript
+```javascript
 // bar.js
 
 var logger = require("./logger")();
@@ -63,7 +63,7 @@ Binds the logging to `console.error` for the debug messages.
 If you need access to the `debug` module directly, it's available off the
 require'd `debug-caller` object:
 
-```JavaScript
+```javascript
 var debugCaller = require("debug-caller");
 
 // enable the app namespace debug output
