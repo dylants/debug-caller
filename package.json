@@ -1,7 +1,7 @@
 {
     "name": "debug-caller",
-    "description": "The debug module with caller support",
-    "version": "0.1.0",
+    "description": "Automatic filename namespace for debug",
+    "version": "1.0.0",
     "author": {
         "name": "Dylan Smith"
     },
