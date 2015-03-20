@@ -37,9 +37,15 @@ describe("The debugCaller library", function() {
             logger = debugCaller.__get__("logger")(APP_NAME);
         });
 
-        it("should return a log and error function", function() {
+        it("should return an instance of debug-logger", function() {
+            expect(logger).toBeDefined();
             expect(logger.log).toBeDefined();
             expect(logger.error).toBeDefined();
         });
+    });
+
+    it("should provide access to debug", function() {
+        expect(debugCaller.debug).toBeDefined();
+        expect(debugCaller.debug.enable).toBeDefined();
     });
 });

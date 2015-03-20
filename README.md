@@ -23,7 +23,7 @@ for the `debug` instance. Below are some examples:
 
 var logger = require("debug-caller")("myApp");
 
-logger.log("logging data");  // "myApp:foo logging data"
+logger.log("logging data");  // "myApp:foo:log logging data"
 ```
 
 ### Used in a logging utility ###
@@ -45,31 +45,63 @@ module.exports = function() {
 
 var logger = require("./logger")();
 
-logger.log("doing work");  // "myOtherApp:bar doing work"
+logger.log("doing work");  // "myOtherApp:bar:log doing work"
 ```
 
 ## API ##
 
-### log() ###
+As of version 2.x, `debug-caller` has wrapped
+[`debug-logger`](https://github.com/appscot/debug-logger) instead of `debug`
+directly. This was done to take advantage of the APIs that `debug-logger`
+sets up automatically. These APIs are available from the `debug-caller`
+instance:
 
-Uses the default `debug` logging (`console.log`) to output debug messages.
+* `trace` (logs to stdout)
+* `debug` (logs to stdout)
+* `log`   (logs to stdout)
+* `info`  (logs to stdout)
+* `warn`  (logs to stderr)
+* `error` (logs to stderr)
 
-### error() ###
+For example, using the `logger` approach as written above:
 
-Binds the logging to `console.error` for the debug messages.
+```javascript
+// logger.js
+
+var debugCaller = require("debug-caller");
+
+module.exports = function() {
+    return debugCaller("awesome-app", 2);
+};
+```
+
+```javascript
+// baz.js
+
+var logger = require("./logger")();
+
+logger.log("message to stdout");  // "awesome-app:baz:log message to stdout"
+
+logger.error("message to stderr");  // "awesome-app:baz:error message to stderr"
+```
 
 ## Access Debug ##
 
 If you need access to the `debug` module directly, it's available off the
-require'd `debug-caller` object:
+require'd `debug-caller` object. For instance, to enable `debug` output within
+your `logger` module:
 
 ```javascript
+// logger.js
+
 var debugCaller = require("debug-caller");
 
-// enable the app namespace debug output
+// enable debug output for our app
 debugCaller.debug.enable("myApp*");
 
-// ...
+module.exports = function() {
+    return debugCaller("myApp", 2);
+};
 ```
 
 ## Etc ##

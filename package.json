@@ -1,7 +1,7 @@
 {
     "name": "debug-caller",
     "description": "Automatic filename namespace for debug",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": {
         "name": "Dylan Smith"
     },
@@ -37,7 +37,7 @@
         "test-watch": "jasmine-node --test-dir test --matchall --color --autotest --watch lib"
     },
     "dependencies": {
-        "debug": "^2.1.3",
+        "debug-logger": "^0.4.1",
         "caller": "^1.0.0"
     },
     "devDependencies": {
