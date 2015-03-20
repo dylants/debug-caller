@@ -21,9 +21,9 @@ for the `debug` instance. Below are some examples:
 ```javascript
 // foo.js
 
-var logger = require("debug-caller")("myApp");
+var logger = require("debug-caller")("my-app");
 
-logger.log("logging data");  // "myApp:foo logging data"
+logger.log("logging data");  // "my-app:foo logging data"
 ```
 
 ### Used in a logging utility ###
@@ -36,7 +36,7 @@ var debugCaller = require("debug-caller");
 module.exports = function() {
     // set a depth of 2 to avoid using this file within debug statements
     // (since this is just a passthrough for logging)
-    return debugCaller("myOtherApp", 2);
+    return debugCaller("my-app", 2);
 };
 ```
 
@@ -45,7 +45,9 @@ module.exports = function() {
 
 var logger = require("./logger")();
 
-logger.log("doing work");  // "myOtherApp:bar doing work"
+logger.log("doing work");  // "my-app:bar doing work"
+
+logger.error("something went wrong!");  // "my-app:bar something went wrong!"
 ```
 
 ## API ##
@@ -74,12 +76,12 @@ within your application, you can enable it within your `logger` module:
 var debugCaller = require("debug-caller");
 
 // enable debug output for our app
-debugCaller.debug.enable("myApp*");
+debugCaller.debug.enable("my-app*");
 
 module.exports = function() {
     // set a depth of 2 to avoid using this file within debug statements
     // (since this is just a passthrough for logging)
-    return debugCaller("myApp", 2);
+    return debugCaller("my-app", 2);
 };
 ```
 
