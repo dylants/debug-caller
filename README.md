@@ -50,26 +50,37 @@ logger.log("doing work");  // "myOtherApp:bar doing work"
 
 ## API ##
 
+The `debug-caller` module provides two separate instances of `debug` using
+the same namespace for each. The purpose is to provide the user a function
+to use for console.log (stdout) and console.error (stderr).
+
 ### log() ###
 
-Uses the default `debug` logging (`console.log`) to output debug messages.
+Binds the logging to `console.log` (stdout) for the debug messages.
 
 ### error() ###
 
-Binds the logging to `console.error` for the debug messages.
+Binds the logging to `console.error` (stderr) for the debug messages.
 
 ## Access Debug ##
 
 If you need access to the `debug` module directly, it's available off the
-require'd `debug-caller` object:
+require'd `debug-caller` object. For instance, to enable `debug` output by default
+within your application, you can enable it within your `logger` module:
 
 ```javascript
+// logger.js
+
 var debugCaller = require("debug-caller");
 
-// enable the app namespace debug output
+// enable debug output for our app
 debugCaller.debug.enable("myApp*");
 
-// ...
+module.exports = function() {
+    // set a depth of 2 to avoid using this file within debug statements
+    // (since this is just a passthrough for logging)
+    return debugCaller("myApp", 2);
+};
 ```
 
 ## Etc ##

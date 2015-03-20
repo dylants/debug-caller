@@ -42,4 +42,9 @@ describe("The debugCaller library", function() {
             expect(logger.error).toBeDefined();
         });
     });
+
+    it("should provide access to debug", function() {
+        expect(debugCaller.debug).toBeDefined();
+        expect(debugCaller.debug.enable).toBeDefined();
+    });
 });
