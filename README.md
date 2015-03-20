@@ -11,11 +11,6 @@ unique namespaces each time you use `debug`!
 
 ## Quick Examples ##
 
-When you invoke `debug-caller`, you must specify the application name, and
-can optionally specify the depth. If you do not specify the depth, it will
-default to 1, using the immediate calling file name to build the namespace
-for the `debug` instance. Below are some examples:
-
 ### Basic usage ###
 
 ```javascript
@@ -26,7 +21,7 @@ var logger = require("debug-caller")("my-app");
 logger.log("logging data");  // "my-app:foo logging data"
 ```
 
-### Used in a logging utility ###
+### Used in a logging utility (recommended) ###
 
 ```javascript
 // logger.js
@@ -36,8 +31,18 @@ var debugCaller = require("debug-caller");
 module.exports = function() {
     // set a depth of 2 to avoid using this file within debug statements
     // (since this is just a passthrough for logging)
-    return debugCaller("my-app", 2);
+    return debugCaller("my-app", {
+        depth: 2
+    });
 };
+```
+
+```javascript
+// foo.js
+
+var logger = require("./logger")();
+
+logger.log("logging data");  // "my-app:foo logging data"
 ```
 
 ```javascript
@@ -50,10 +55,31 @@ logger.log("doing work");  // "my-app:bar doing work"
 logger.error("something went wrong!");  // "my-app:bar something went wrong!"
 ```
 
+## Configuration ##
+
+When you invoke `debug-caller`, you must specify an application name (or module
+name) as the first parameter. The second parameter is an (optional) options object
+which can contain any of the following:
+
+### `depth` : <`number`> ###
+
+When using `caller` to find the calling file name, this states how high up the
+stack to look for the name. If you do not specify the depth, it will default to `1`,
+using the immediate calling file name to build the namespace for the debug instance.
+
+### `randomColors` : <`boolean`> ###
+
+By default, `debug-caller` will assign fixed colors to the two `debug` instances
+returned: the `log` instance will always use `white` while the `error` instance
+will always use `red`. To use random colors for each `debug` instance, pass in
+`true` for this option. The default value for this option is `false`.
+
+Note: this is only for TTY output.
+
 ## API ##
 
 The `debug-caller` module provides two separate instances of `debug` using
-the same namespace for each. The purpose is to provide the user a function
+the same namespace for each. The purpose is to provide the user with a function
 to use for console.log (stdout) and console.error (stderr).
 
 ### log() ###
@@ -68,7 +94,7 @@ Binds the logging to `console.error` (stderr) for the debug messages.
 
 If you need access to the `debug` module directly, it's available off the
 require'd `debug-caller` object. For instance, to enable `debug` output by default
-within your application, you can enable it within your `logger` module:
+within your application (or module), you can enable it within your `logger`:
 
 ```javascript
 // logger.js
@@ -81,7 +107,9 @@ debugCaller.debug.enable("my-app*");
 module.exports = function() {
     // set a depth of 2 to avoid using this file within debug statements
     // (since this is just a passthrough for logging)
-    return debugCaller("my-app", 2);
+    return debugCaller("my-app", {
+        depth: 2
+    });
 };
 ```
 

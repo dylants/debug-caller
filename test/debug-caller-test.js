@@ -31,17 +31,75 @@ describe("The debugCaller library", function() {
     });
 
     describe("logger", function() {
-        var logger;
+        var logger, sentAppName, sentDepth;
 
         beforeEach(function() {
-            logger = debugCaller.__get__("logger")(APP_NAME);
+            debugCaller.__set__("_buildNamespace", function(appName, depth) {
+                sentAppName = appName;
+                sentDepth = depth;
+            });
+            sentAppName = null;
+            sentDepth = null;
+
+            logger = debugCaller.__get__("logger");
         });
 
-        it("should return a log and error function", function() {
-            expect(logger.log).toBeDefined();
-            expect(logger.error).toBeDefined();
+        describe("logger with only app name", function() {
+            beforeEach(function() {
+                logger = logger(APP_NAME);
+            });
+
+            it("should return a log and error function", function() {
+                expect(logger.log).toBeDefined();
+                expect(logger.error).toBeDefined();
+            });
+
+            it("should assign the correct app name", function() {
+                expect(sentAppName).toEqual(APP_NAME);
+            });
+
+            it("should assign the correct depth", function() {
+                expect(sentDepth).toEqual(1);
+            });
+
+            it("should assign non-random colors", function() {
+                expect(logger.log.color).toEqual(7);
+                expect(logger.error.color).toEqual(1);
+            });
+        });
+
+        describe("logger with all options", function() {
+            var DEPTH;
+
+            beforeEach(function() {
+                DEPTH = 5;
+
+                logger = logger(APP_NAME, {
+                    depth: DEPTH,
+                    randomColors: true
+                });
+            });
+
+            it("should return a log and error function", function() {
+                expect(logger.log).toBeDefined();
+                expect(logger.error).toBeDefined();
+            });
+
+            it("should assign the correct app name", function() {
+                expect(sentAppName).toEqual(APP_NAME);
+            });
+
+            it("should assign the correct depth", function() {
+                expect(sentDepth).toEqual(DEPTH);
+            });
+
+            it("should assign random colors", function() {
+                expect(logger.log.color).toBeUndefined();
+                expect(logger.error.color).toBeUndefined();
+            });
         });
     });
+
 
     it("should provide access to debug", function() {
         expect(debugCaller.debug).toBeDefined();
