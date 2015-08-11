@@ -3,11 +3,12 @@
 var rewire = require("rewire");
 
 describe("The debugCaller library", function() {
-    var APP_NAME;
+    var APP_NAME, TEST_NAME;
     var debugCaller;
 
     beforeEach(function() {
         APP_NAME = "myApp";
+        TEST_NAME = "debug-caller-test";
 
         debugCaller = rewire("../lib/debug-caller");
     });
@@ -26,14 +27,16 @@ describe("The debugCaller library", function() {
         it("should return the correct namespace", function() {
             // use depth of -1 here to get around the depth default settings
             // (and get depth to equal 1, which is only useful in testing)
-            expect(_buildNamespace(APP_NAME, -1)).toEqual(APP_NAME + ":debug-caller-test");
+            expect(_buildNamespace(APP_NAME, -1)).toEqual(APP_NAME + ":" + TEST_NAME);
         });
     });
 
     describe("logger", function() {
-        var logger, sentAppName, sentDepth;
+        var logger, sentAppName, sentDepth, _buildNamespace;
 
         beforeEach(function() {
+            _buildNamespace = debugCaller.__get__("_buildNamespace");
+
             debugCaller.__set__("_buildNamespace", function(appName, depth) {
                 sentAppName = appName;
                 sentDepth = depth;
@@ -44,7 +47,7 @@ describe("The debugCaller library", function() {
             logger = debugCaller.__get__("logger");
         });
 
-        describe("logger with only app name", function() {
+        describe("with only app name", function() {
             beforeEach(function() {
                 logger = logger(APP_NAME);
             });
@@ -68,7 +71,7 @@ describe("The debugCaller library", function() {
             });
         });
 
-        describe("logger with all options", function() {
+        describe("with all options", function() {
             var DEPTH;
 
             beforeEach(function() {
@@ -98,8 +101,20 @@ describe("The debugCaller library", function() {
                 expect(logger.error.color).toBeUndefined();
             });
         });
-    });
 
+        describe("with a real namespace", function() {
+            beforeEach(function() {
+                debugCaller.__set__("_buildNamespace", _buildNamespace);
+
+                logger = logger(APP_NAME);
+            });
+
+            it("should provide access to the namespace", function() {
+                expect(logger.namespace).toBeDefined();
+                expect(logger.namespace).toEqual(APP_NAME + ":" + TEST_NAME);
+            });
+        });
+    });
 
     it("should provide access to debug", function() {
         expect(debugCaller.debug).toBeDefined();

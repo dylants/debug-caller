@@ -90,6 +90,10 @@ Binds the logging to `console.log` (stdout) for the debug messages.
 
 Binds the logging to `console.error` (stderr) for the debug messages.
 
+### namespace ###
+
+Returns the generated `namespace` used when configuring the `debug` instance.
+
 ## Access Debug ##
 
 If you need access to the `debug` module directly, it's available off the
