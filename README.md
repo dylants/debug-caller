@@ -76,6 +76,36 @@ will always use `red`. To use random colors for each `debug` instance, pass in
 
 Note: this is only for TTY output.
 
+### `logColor` : <`number`> ###
+
+By default, `debug-caller` will assign the color white(7) to the `log` debug instance. To set a custom color pass in a number (0-7).
+
+* 0: gray
+* 1: red
+* 2: green
+* 3: yellow
+* 4: blue
+* 5: pink
+* 6: light blue
+* 7: white
+
+This option will be ignored if randomColors is set to `true`.
+
+### `errorColor` : <`number`> ###
+
+By default, `debug-caller` will assign the color red(1) to the `error` debug instance. To set a custom color pass in a number (0-7).
+
+* 0: gray
+* 1: red
+* 2: green
+* 3: yellow
+* 4: blue
+* 5: pink
+* 6: light blue
+* 7: white
+
+This option will be ignored if randomColors is set to `true`.
+
 ## API ##
 
 The `debug-caller` module provides two separate instances of `debug` using
@@ -120,4 +150,4 @@ module.exports = function() {
 ## Etc ##
 
 - Licence: [MIT](https://github.com/dylants/debug-caller/blob/master/LICENSE)
-- Dependency Status: [![Dependency Status](https://david-dm.org/dylants/debug-caller.svg)](https://david-dm.org/dylants/debug-caller) 
+- Dependency Status: [![Dependency Status](https://david-dm.org/dylants/debug-caller.svg)](https://david-dm.org/dylants/debug-caller)

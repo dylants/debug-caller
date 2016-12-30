@@ -71,7 +71,7 @@ describe("The debugCaller library", function() {
             });
         });
 
-        describe("with all options", function() {
+        describe("with all options and randomColors = true", function() {
             var DEPTH;
 
             beforeEach(function() {
@@ -79,7 +79,9 @@ describe("The debugCaller library", function() {
 
                 logger = logger(APP_NAME, {
                     depth: DEPTH,
-                    randomColors: true
+                    randomColors: true,
+                    logColor: 1,
+                    errorColor: 3,
                 });
             });
 
@@ -97,8 +99,43 @@ describe("The debugCaller library", function() {
             });
 
             it("should assign random colors", function() {
-                expect(logger.log.color).toBeUndefined();
-                expect(logger.error.color).toBeUndefined();
+                expect(logger.log.color).toBeDefined();
+                expect(logger.error.color).toBeDefined();
+            });
+        });
+
+        describe("with all options and randomColors = false", function() {
+            var DEPTH, LOG_COLOR, ERROR_COLOR;
+
+            beforeEach(function() {
+                DEPTH = 5;
+                LOG_COLOR = 4;
+                ERROR_COLOR = 3;
+
+                logger = logger(APP_NAME, {
+                    depth: DEPTH,
+                    randomColors: false,
+                    logColor: LOG_COLOR,
+                    errorColor: ERROR_COLOR,
+                });
+            });
+
+            it("should return a log and error function", function() {
+                expect(logger.log).toBeDefined();
+                expect(logger.error).toBeDefined();
+            });
+
+            it("should assign the correct app name", function() {
+                expect(sentAppName).toEqual(APP_NAME);
+            });
+
+            it("should assign the correct depth", function() {
+                expect(sentDepth).toEqual(DEPTH);
+            });
+
+            it("should assign random colors", function() {
+                expect(logger.log.color).toEqual(LOG_COLOR);
+                expect(logger.error.color).toEqual(ERROR_COLOR);
             });
         });
 
